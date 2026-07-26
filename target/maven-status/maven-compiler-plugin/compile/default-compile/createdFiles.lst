@@ -1,1 +1,5 @@
+com/lbusch/github/events/entity/PushEvent.class
+com/lbusch/github/events/config/GitHubRestClient.class
+com/lbusch/github/events/repository/PushEventRepository.class
+com/lbusch/github/events/service/GitHubEventsPoller.class
 com/lbusch/github/events/Application.class
