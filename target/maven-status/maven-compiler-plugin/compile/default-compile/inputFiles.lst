@@ -1,5 +1,13 @@
 /Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/Application.java
 /Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/config/GitHubRestClient.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/config/JacksonConfig.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/config/OpenApiConfig.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/controller/PushEventController.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/dto/GitHubEventPayload.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/dto/GitHubEventResponse.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/dto/SearchPushEventRequest.java
 /Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/entity/PushEvent.java
 /Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/repository/PushEventRepository.java
 /Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/service/GitHubEventsPoller.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/service/PushEventService.java
+/Users/lawsonbusch/code/github-events/src/main/java/com/lbusch/github/events/util/PushEventSpecificationUtils.java
