@@ -1,0 +1,26 @@
+databaseChangeLog:
+    - changeSet:
+          id: 001-create-push-events
+          author: lbusch
+          changes:
+              - createTable:
+                    tableName: push_events
+                    columns:
+                        - column:
+                              name: id
+                              type: uuid
+                              defaultValueComputed: uuidv7()
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: event_id
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false
+                                  unique: true
+                        - column:
+                              name: raw_payload
+                              type: jsonb
+                              constraints:
+                                  nullable: false
