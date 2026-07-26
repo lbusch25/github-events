@@ -1,13 +1,15 @@
 package com.lbusch.github.events.repository;
 
-import com.lbusch.github.events.entity.PushEvent;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+import com.lbusch.github.events.entity.PushEvent;
+
 @Repository
-public interface PushEventRepository extends JpaRepository<PushEvent, UUID> {
+public interface PushEventRepository extends JpaRepository<PushEvent, UUID>, JpaSpecificationExecutor<PushEvent> {
 
     boolean existsByEventId(String eventId);
 }

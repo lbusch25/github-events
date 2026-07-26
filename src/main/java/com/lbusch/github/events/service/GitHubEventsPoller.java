@@ -12,6 +12,7 @@ import org.springframework.web.client.RestClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lbusch.github.events.dto.GitHubEventResponse;
 import com.lbusch.github.events.entity.PushEvent;
 import com.lbusch.github.events.repository.PushEventRepository;
 
@@ -21,12 +22,14 @@ public class GitHubEventsPoller {
     private static final Logger log = LoggerFactory.getLogger(GitHubEventsPoller.class);
 
     private final RestClient restClient;
+    private final ObjectMapper objectMapper;
     private final PushEventRepository pushEventRepository;
-    private static ObjectMapper objectMapper = new ObjectMapper();
 
     public GitHubEventsPoller(RestClient restClient,
+                              ObjectMapper objectMapper,
                               PushEventRepository pushEventRepository) {
         this.restClient = restClient;
+        this.objectMapper = objectMapper;
         this.pushEventRepository = pushEventRepository;
     }
 
@@ -49,9 +52,9 @@ public class GitHubEventsPoller {
             return;
         }
 
-        JsonNode events;
+        JsonNode nodes;
         try {
-            events = objectMapper.readTree(responseBody);
+            nodes = objectMapper.readTree(responseBody);
         } catch (JsonProcessingException e) {
             log.error("Failed to parse GitHub API response: {}", e.getMessage());
             return;
@@ -60,32 +63,43 @@ public class GitHubEventsPoller {
         int ingested = 0;
         int skipped = 0;
 
-        for (JsonNode event : events) {
-            String type = event.path("type").asText("");
-            if (!"PushEvent".equals(type)) {
+        for (JsonNode node : nodes) {
+            GitHubEventResponse event;
+            try {
+                event = objectMapper.treeToValue(node, GitHubEventResponse.class);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to deserialize event node: {}", e.getMessage());
                 continue;
             }
 
-            String eventId = event.path("id").asText(null);
-            if (eventId == null) {
+            if (!"PushEvent".equals(event.type())) {
+                continue;
+            }
+
+            if (event.id() == null) {
                 log.warn("PushEvent missing 'id' field, skipping");
                 continue;
             }
 
-            if (pushEventRepository.existsByEventId(eventId)) {
+            if (pushEventRepository.existsByEventId(event.id())) {
                 skipped++;
                 continue;
             }
 
             try {
-                PushEvent pushEvent = new PushEvent(eventId, objectMapper.writeValueAsString(event));
+                PushEvent pushEvent = new PushEvent(
+                        event.id(),
+                        event.payload().repositoryId(),
+                        event.payload().pushId(),
+                        event.payload().ref(),
+                        event.payload().head(),
+                        event.payload().before(),
+                        node.toString()
+                );
                 pushEventRepository.save(pushEvent);
                 ingested++;
             } catch (DataIntegrityViolationException e) {
-                // Race condition on unique constraint — another thread/restart already inserted it
                 skipped++;
-            } catch (JsonProcessingException e) {
-                log.error("Failed to serialize event {}: {}", eventId, e.getMessage());
             }
         }
 
