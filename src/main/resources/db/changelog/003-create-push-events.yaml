@@ -1,0 +1,56 @@
+databaseChangeLog:
+    - changeSet:
+          id: 003-create-push-events
+          author: lbusch
+          changes:
+              - createTable:
+                    tableName: push_events
+                    columns:
+                        - column:
+                              name: id
+                              type: uuid
+                              defaultValueComputed: uuidv7()
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: event_id
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false
+                                  unique: true
+                        - column:
+                              name: actor_id
+                              type: bigint
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: repository_id
+                              type: bigint
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: push_id
+                              type: bigint
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: ref
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: head
+                              type: varchar(40)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: before
+                              type: varchar(40)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: raw_payload
+                              type: jsonb
+                              constraints:
+                                  nullable: false

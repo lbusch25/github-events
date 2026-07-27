@@ -6,5 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public record GitHubEventResponse(
         String id,
         String type,
-        GitHubEventPayload payload
+        GitHubEventPayload payload,
+        ActorData actor,
+        RepoData repo
 ) {}

@@ -1,6 +1,7 @@
 package com.lbusch.github.events.dto;
 
 public record SearchPushEventRequest(
+        Long actorId,
         Long repositoryId,
         Long pushId,
         String ref,

@@ -1,11 +1,16 @@
 package com.lbusch.github.events.util;
 
-import com.lbusch.github.events.entity.PushEvent;
 import org.springframework.data.jpa.domain.Specification;
+
+import com.lbusch.github.events.entity.PushEvent;
 
 public final class PushEventSpecificationUtils {
 
     private PushEventSpecificationUtils() {}
+
+    public static Specification<PushEvent> hasActorId(Long actorId) {
+        return (root, query, cb) -> actorId == null ? null : cb.equal(root.get("actorId"), actorId);
+    }
 
     public static Specification<PushEvent> hasRepositoryId(Long repositoryId) {
         return (root, query, cb) -> repositoryId == null ? null : cb.equal(root.get("repositoryId"), repositoryId);
