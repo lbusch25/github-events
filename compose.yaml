@@ -18,3 +18,14 @@ services:
       - SPRING_DATASOURCE_PASSWORD=secret
     ports:
       - "8080:8080"
+
+  test:
+    build:
+      context: .
+      target: build
+    entrypoint: ["./mvnw", "test"]
+    environment:
+      - TESTCONTAINERS_RYUK_DISABLED=true
+      - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
