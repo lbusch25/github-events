@@ -1,3 +1,7 @@
 databaseChangeLog:
-  - include:
-      file: db/changelog/001-create-push-events.yaml
+    - include:
+          file: db/changelog/001-create-actors.yaml
+    - include:
+          file: db/changelog/002-create-repositories.yaml
+    - include:
+          file: db/changelog/003-create-push-events.yaml

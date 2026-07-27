@@ -1,0 +1,31 @@
+databaseChangeLog:
+    - changeSet:
+          id: 002-create-repositories
+          author: lbusch
+          changes:
+              - createTable:
+                    tableName: repositories
+                    columns:
+                        - column:
+                              name: id
+                              type: uuid
+                              defaultValueComputed: uuidv7()
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                        - column:
+                              name: repository_id
+                              type: bigint
+                              constraints:
+                                  nullable: false
+                                  unique: true
+                        - column:
+                              name: url
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: name
+                              type: varchar(255)
+                              constraints:
+                                  nullable: false

@@ -21,7 +21,8 @@ public class PushEventService {
 
     public List<PushEvent> search(SearchPushEventRequest request) {
         Specification<PushEvent> spec = Specification
-                .where(PushEventSpecificationUtils.hasRepositoryId(request.repositoryId()))
+                .where(PushEventSpecificationUtils.hasActorId(request.actorId()))
+                .and(PushEventSpecificationUtils.hasRepositoryId(request.repositoryId()))
                 .and(PushEventSpecificationUtils.hasPushId(request.pushId()))
                 .and(PushEventSpecificationUtils.hasRef(request.ref()))
                 .and(PushEventSpecificationUtils.hasHead(request.head()))

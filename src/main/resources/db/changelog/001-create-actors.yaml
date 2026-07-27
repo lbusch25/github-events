@@ -1,10 +1,10 @@
 databaseChangeLog:
     - changeSet:
-          id: 001-create-push-events
+          id: 001-create-actors
           author: lbusch
           changes:
               - createTable:
-                    tableName: push_events
+                    tableName: actors
                     columns:
                         - column:
                               name: id
@@ -14,38 +14,29 @@ databaseChangeLog:
                                   primaryKey: true
                                   nullable: false
                         - column:
-                              name: event_id
-                              type: varchar(255)
+                              name: actor_id
+                              type: bigint
                               constraints:
                                   nullable: false
                                   unique: true
                         - column:
-                              name: repository_id
-                              type: bigint
-                              constraints:
-                                  nullable: false
-                        - column:
-                              name: push_id
-                              type: bigint
-                              constraints:
-                                  nullable: false
-                        - column:
-                              name: ref
+                              name: url
                               type: varchar(255)
                               constraints:
                                   nullable: false
                         - column:
-                              name: head
-                              type: varchar(40)
+                              name: login
+                              type: varchar(255)
                               constraints:
                                   nullable: false
                         - column:
-                              name: before
-                              type: varchar(40)
+                              name: avatar_url
+                              type: varchar(255)
                               constraints:
                                   nullable: false
                         - column:
-                              name: raw_payload
-                              type: jsonb
-                              constraints:
-                                  nullable: false
+                              name: gravatar_id
+                              type: varchar(255)
+                        - column:
+                              name: display_login
+                              type: varchar(255)

@@ -2,7 +2,6 @@ package com.lbusch.github.events.entity;
 
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -12,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +32,9 @@ public class PushEvent {
     @Column(name = "event_id", nullable = false, unique = true)
     private String eventId;
 
+    @Column(name = "actor_id", nullable = false)
+    private Long actorId;
+
     @Column(name = "repository_id", nullable = false)
     private Long repositoryId;
 
@@ -51,8 +54,9 @@ public class PushEvent {
     @Column(name = "raw_payload", nullable = false, columnDefinition = "jsonb")
     private String rawPayload;
 
-    public PushEvent(String eventId, Long repositoryId, Long pushId, String ref, String head, String before, String rawPayload) {
+    public PushEvent(String eventId, Long actorId, Long repositoryId, Long pushId, String ref, String head, String before, String rawPayload) {
         this.eventId = eventId;
+        this.actorId = actorId;
         this.repositoryId = repositoryId;
         this.pushId = pushId;
         this.ref = ref;
